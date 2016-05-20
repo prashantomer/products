@@ -1,0 +1,6 @@
+$("#edit_<%=@sol_update.id%>").val('');
+<% if @sol_update.solution_id.nil? %>
+	$('.sol_title_<%= @sol_update.id %>').html("<%= escape_javascript render(:partial => '/layouts/shared/sol_title', :locals => { :sol => @sol_update, que: @sol_update.question } ) %>");
+<% else %>
+	$(".sol_title_<%= @sol_update.id %>").html("<%= escape_javascript render(:partial => '/layouts/shared/replies_title', :locals => { :sol => @sol_update.parent, :rep => @sol_update } ) %>");
+<% end %>

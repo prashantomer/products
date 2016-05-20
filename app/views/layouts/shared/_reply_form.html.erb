@@ -1,0 +1,14 @@
+<div>
+  <% if current_user.users_answers.finding(que.id)[0] %><!-- checking whether answer of this question is saved for current user-->
+    <div class="form-rep_<%=sol.id%>">
+		  <%= form_tag save_reply_welcome_index_path, class: "hidden form-inline form-reply", id:sol.id , method: :get, :remote => true do %>
+		    <%= hidden_field_tag 'solution[question_id]', que.id %>
+		    <%= hidden_field_tag 'solution[solution_id]', sol.id %>
+		    <div class="field">
+		      <div class="col-sm-10"><%= text_field_tag 'solution[solution]', "" , id: "solution_#{sol.id}", class: 'form-control', autofocus: true %></div>
+		      <div class="col-sm-2"><%= submit_tag 'Reply', class:"btn btn-primary" %></div>
+		    </div><br />
+		  <% end %>
+		</div><!--form-rep-->              
+  <% end %>	
+</div>		

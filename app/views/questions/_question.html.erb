@@ -1,0 +1,18 @@
+<table border="3" style="width: 654px;">
+  <tr>
+  <td style="width: 325px;">Question</td>
+  <td style="width: 325px;">Options</td>
+  <td style="width: 80px;">Edit</td>
+  </tr>
+  <% @questions.each do |que| %>
+    <tr>
+      <td><%= que.question %>_____</td>
+      <td>
+        <% que.options.each do |opt| %>
+          <%= opt.option %></br>
+        <% end %>
+      </td>
+      <td><%= link_to "Edit", edit_question_path(que) %></td>
+    </tr>
+  <% end %>
+</table></br>

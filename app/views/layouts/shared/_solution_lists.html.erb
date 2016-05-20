@@ -1,0 +1,45 @@
+<div class="solution_<%=sol.id%>">
+<% if sol.solution_id.nil? %>
+  <div class="sol_title_<%= sol.id %>">
+    <%= render "layouts/shared/sol_title", :sol=>sol %>
+  </div>
+  <div class="likes_<%= sol.id %>" id="likes_<%= sol.id %>">
+    <%= render "/layouts/shared/likes", :sol=>sol %> 
+  </div>
+  
+  <div class="replies_<%=sol.id%>">
+    <% sol.children.reverse.each do |rep| %>
+      <%= render "/layouts/shared/replies_list", :rep=>rep, :sol=>sol %>
+    <% end %>
+  </div>
+  <%= render "/layouts/shared/reply_form", :que => que, :sol=>sol %>
+  <%#-----------------edit form--------------------------------------%>
+  <% if sol.user==current_user %>
+    <div class="sol_<%=sol.id%>">
+      <%#= render "/layouts/shared/edit_reply_form", :sol=>sol %>
+    </div><br />
+  <% end %>
+<%#-------------------------------------------------------%>
+  <hr class="divider">
+<% end %>
+</div>
+<script type="text/javascript">
+  function toggleVisibility(id){      
+    $(".form-reply").addClass("hidden")
+    $(".form-edit").remove()
+    var sol = document.getElementById(id);        
+     if($(sol).hasClass("hidden")) {
+      $(sol).removeClass('hidden');
+    }
+  }
+
+ 
+
+  // function toggleLike(sol_id){
+  //     $.ajax('/welcome/'+sol_id+'/save_like', {
+  //         method: 'post',
+  //         dataType: 'script'
+  //       });
+  // }
+</script>
+

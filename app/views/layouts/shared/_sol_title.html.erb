@@ -1,0 +1,18 @@
+<% add=request.fullpath %>
+<h5><strong><%= link_to sol.user.name.capitalize, "#-" ,class: "user_#{sol.id}#{sol.user.id}", data: {id: "#{sol.user.id}", add: add} %>:</strong> <%= sol.solution %></h5>
+
+
+<script>
+$(".user_<%=sol.id%><%=sol.user.id%>").click(function(){
+    id=$(this).data('id');
+    add=$(this).data('add');
+    $.ajax("/user_profiles/"+id, {
+          method: 'get',
+          data: {
+          	add: add
+          },
+          dataType: 'script'
+        });
+
+});
+</script>

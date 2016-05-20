@@ -1,0 +1,27 @@
+<h1>Questions</h1>
+<hr class="divider">
+<div>
+  <% @que_papers.each do |que| %>
+    <div>
+      <h2><%= que.question %></h2>
+      <div class="form">
+      <%= form_tag('/welcome/evaluation',:method => :get) do %>
+        <div>
+          <%= hidden_field_tag 'question_id', que.id %>
+        </div>
+        <div class="field">
+          <label for="optoin"><h3>Options:</h3></label><br />
+            <% que.options.each do |option| %>
+            <% answer=option.option %> 
+                <%= radio_button_tag 'answer', answer, option_checked(current_user,que.id,answer) %>
+                <%= answer.humanize %><br />
+          <% end %>
+        </div><br />
+        <div><%= submit_tag 'Submit', class:"btn btn-primary" %></div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+</div><br />
+<%= will_paginate @que_papers %>

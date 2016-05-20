@@ -1,0 +1,2 @@
+$("#solution_<%=@sol_reply.parent.id%>").val('');
+$(".replies_<%=@sol_reply.parent.id%>").prepend("<%= escape_javascript render(:partial => '/layouts/shared/replies_list', :locals => { :sol => @sol_reply.parent, :rep => @sol_reply } ) %>");

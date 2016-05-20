@@ -1,0 +1,121 @@
+<div>
+	<div class="col-lg-8">
+		<%= nested_form_for(@user, :url => {:controller => :user_profiles, :action => :update},id:"edit_user_#{current_user.id}", :html => { multipart: true}) do |f| %>
+			<div class="form-horizontal">
+        <div class="form-group">
+	        <%= f.label :address, class:"col-lg-3 control-label" %>
+          <div class="col-lg-4">
+            <%= f.text_area :address, autofocus: true, class:"form-control"%>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :contact, class:"col-lg-3 control-label" %>
+          <div class="col-lg-4">
+            <%= f.number_field :contact, class:"form-control"%>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :profile_picture, class:"col-lg-3 control-label" %>
+          <div class="col-lg-4">
+            <%= f.file_field :prof_pic, id: "profpic_#{current_user.id}" %>
+          </div>
+        </div>
+
+        <div>
+		      <%= f.fields_for :album do |ff| %>
+		        <div class="form-group">
+			        <%= ff.label :pictures, class:"col-lg-3 control-label" %>
+		          <div class="col-lg-4">
+		            <%= ff.file_field 'picture[]', multiple: true %>
+		          </div>
+		       	</div>
+		      <% end %>
+        </div>
+
+        <div class="form-group">
+          <div class="col-lg-offset-3 col-lg-4">
+            <%= f.submit "Save", class:"btn btn-primary", id:"btn_#{current_user.id}" %>
+          </div>
+        </div>
+	    </div>
+		<% end %>
+	</div>
+
+	<div class="col-lg-4">
+		<div class="col-lg-8" id="blah">
+	  	<img id="image",style="max-width: 200px;" />
+	  </div>
+	</div>
+
+
+	<script>
+	document.getElementById("profpic_<%=current_user.id%>").onchange = function () {
+	    var reader = new FileReader();
+
+	    reader.onload = function (e) {
+	        // get loaded data and render thumbnail.
+	        $('#blah').attr('src', e.target.result);
+	    };
+
+	    // read the image file as a data URL.
+	    reader.readAsDataURL(this.files[0]);
+	};
+
+	// $("#edit_user_<%=current_user.id%>").submit(function(event) {
+	//       event.preventDefault();
+	//       		debugger
+	//       var $form = $( this );
+ //        url = $form.attr( url,"/user_profiles/<%=current_user.id%>");
+ //        method: 'patch',
+ //        type: 'script';
+	//       var posting = $.post( url, { address: $('#user_address').val(), contact: $('#user_contact').val(), prof_pic: $('#profpic_<%=current_user.id%>').val() });
+	//     });
+	</script>
+</div>
+<script>
+$(document).ready(function() {	
+    // process the form
+    $("#edit_user_<%=current_user.id%>").submit(function(event) {
+      // stop the form from submitting the normal way and refreshing the page
+      event.preventDefault();
+      // get the form data
+      // there are many ways to get this data using jQuery (you can use the class or id also)
+      var fd = new FormData();
+      var file_data = $('input[name="user[prof_pic]"]')[0].files;
+
+      var pics_data = $('input[name="user[album][picture[]][]"]')[0].files // for multiple files
+      for(var i = 0;i<pics_data.length;i++){
+          fd.append("pic_"+i, pics_data[i]);
+      }
+      for(var i = 0;i<file_data.length;i++){
+          fd.append("file_"+i, file_data[i]);
+      }
+
+      var other_data = $('form').serializeArray();
+      $.each(other_data,function(key,input){
+          fd.append(input.name,input.value);
+      });
+      $.ajax({
+          url: "/user_profiles/"+(this.id).split(/[^0-9a-zA-Z]+/g)[2],
+          data: fd,
+          contentType: false,
+          processData: false,
+          type: 'patch',
+          dataType: 'json',
+          success: function(data){
+            alert(1)
+            window.location.href= '/';
+          },
+          error: function(data){
+            alert(1)
+            debugger
+          }
+      });
+
+      
+  });
+
+});
+</script>

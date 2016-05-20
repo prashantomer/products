@@ -1,0 +1,26 @@
+<div class="form-horizontal">
+	<%= nested_form_for @question do|q| %>
+		<div class="fields">
+			<%= q.label :question %>
+			<%= q.text_field :question, autofocus: true %>
+		</div>
+		<h3>Options:</h3><br />
+		<div>
+			<%= q.fields_for :options do |o| %>
+				<div class="fields" id="1">
+					<%= o.text_field :option %>
+					<%= o.link_to_remove "Remove" %>
+					<%= hidden_field_tag '_destroy',value:"true" %>
+				</div>
+			<% end %><br />
+			<p><%= q.link_to_add "Add Option", :options %></p>
+		</div>
+		<div class="fields">
+			<%= q.label :right_option %>
+			<%= q.text_field :right_option %>
+		</div>
+		<div class="actions">
+  		<%= q.submit "Create", class:"btn btn-success" %>
+		</div>
+	<% end %>
+</div><br />

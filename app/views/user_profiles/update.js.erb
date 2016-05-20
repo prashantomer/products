@@ -1,0 +1,2 @@
+window.history.pushState("<%=@user%>", "<%=@user.name%> Profile", "/user_profiles/<%=@user.id%>");
+$(".row").html("<%= escape_javascript render(:partial => '/user_profiles/show', :locals => { :user=>@user } ) %>");

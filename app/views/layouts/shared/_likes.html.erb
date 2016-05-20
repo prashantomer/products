@@ -1,0 +1,55 @@
+<div>
+<h6><small>→<strong>
+<% if Like.like_find(sol.id,current_user.id)[0].nil? %>
+  <%= link_to "Like", save_like_welcome_path(sol), class: "sol_like_#{sol.id}", method: :post, remote: true %>
+<% else %>
+	<%= link_to "Unlike", "#" ,class: "unlike_#{sol.id}",data: {id: "#{sol.id}"} %>
+	<%#= link_to "Unlike", save_like_welcome_path(sol), class: "sol_like_#{sol.id}", method: :post, remote: true %>
+<%#= link_to "Unlike", method: :post,:url => { :action => "save_like", :id => sol.id } %>
+<!-- 	<%#= link_to "Unlike", :controller => "welcome", :action => "save_like", :id => sol %>
+ -->  <!-- <a href="#" onclick="toggleLike('<%= sol.id%>'); return false;">Unlike</a> -->
+<% end %>
+
+<% if sol.solution_id.nil? %>
+	 | <a href="" onclick="toggleVisibility('<%= sol.id%>'); return false;">Reply</a>
+	<% end %>
+	  | <%= "#{sol.likes.count} Likes" %>
+	<% if sol.user==current_user %>
+		  <!-- <a href="" onclick="toggleEdit('<%= sol.id%>,<%= sol.solution%>'); return false;">Edit</a> -->
+	   | <%= link_to "Edit", "#-" ,class: "edit_#{sol.id}", data: {id: "#{sol.id}"} %>
+	   | <%= link_to "Delete", "#-" ,class: "delete_#{sol.id}",data: {id: "#{sol.id}"} %>
+<% end %>
+</strong></small></h6>
+</div>
+
+<script>
+$(".unlike_<%=sol.id%>").click(function(){
+    id=$(this).data('id');
+    $.ajax('/welcome/'+id+'/save_like', {
+          method: 'post',
+          dataType: 'script'
+        });
+
+});
+
+$(".edit_<%=sol.id%>").click(function(){
+    var id=$(this).data('id');
+    $(".form-reply").addClass("hidden")
+    $.ajax('/welcome/'+id+'/sol_edit', {
+          method: 'get',
+          dataType: 'script'
+        });
+return false;
+});
+
+$(".delete_<%=sol.id%>").click(function(){
+    id=$(this).data('id');
+    $.ajax('/welcome/'+id, {
+          method: 'delete',
+          dataType: 'script'
+        });
+
+});
+
+  
+</script>

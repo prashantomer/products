@@ -1,0 +1,11 @@
+<div>
+  <%= form_tag update_sol_welcome_path(sol), class: "form-inline form-edit form-reply", id:"sol_#{sol.id}" , method: :get, remote: true do %>
+    <%= hidden_field_tag 'solution[question_id]', sol.question.id %>
+    <%= hidden_field_tag 'solution[solution_id]', sol.id %>
+    <div class="field">
+      <div class="col-sm-10"><%= text_field_tag 'solution[solution]', "", id: "edit_#{sol.id}", class: 'form-control', autofocus: true, value: sol.solution %></div>
+      <div class="col-sm-2"><%= submit_tag 'Update', class:"btn btn-primary" %></div>
+    </div><br />
+  <% end %>
+</div>
+	

@@ -1,0 +1,14 @@
+<div class="solution_<%=rep.id%>">
+<div class="sol_title_<%=rep.id%>">
+	<%= render "layouts/shared/replies_title", :rep=>rep %>
+</div>
+
+<div class="likes_<%=rep.id%>"><%= render "/layouts/shared/likes", :sol=>rep %></div>
+<%#-----------------edit form--------------------------------------%>
+  <% if sol.user==current_user %>
+    <div class="sol_<%=rep.id%>">
+      <%#= render "/layouts/shared/edit_reply_form", :sol=>sol %>
+    </div><br />
+  <% end %>
+<%#-------------------------------------------------------%>
+</div>

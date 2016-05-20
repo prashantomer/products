@@ -1,0 +1,13 @@
+<div class="page-header">
+<h1>Questions</h1>
+<hr></br>
+<%= link_to "New Question", new_question_path %><br /><br />
+</div>
+
+<div id="my-questions">  
+  <%= render "question" %>
+</div>
+
+<div id="infinite-scrolling">
+  <%= will_paginate @questions %>
+</div>

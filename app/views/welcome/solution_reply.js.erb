@@ -1,0 +1,2 @@
+$("#solution_solution").val('');
+$('.solutions').prepend("<%= escape_javascript render(:partial => '/layouts/shared/solution_lists', :locals => { :sol => @sol, que: @sol.question } ) %>");
