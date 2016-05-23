@@ -1,18 +1,94 @@
-<table border="3" style="width: 654px;">
-  <tr>
-  <td style="width: 325px;">Question</td>
-  <td style="width: 325px;">Options</td>
-  <td style="width: 80px;">Edit</td>
-  </tr>
-  <% @questions.each do |que| %>
-    <tr>
-      <td><%= que.question %>_____</td>
-      <td>
-        <% que.options.each do |opt| %>
-          <%= opt.option %></br>
-        <% end %>
-      </td>
-      <td><%= link_to "Edit", edit_question_path(que) %></td>
+<table class="queTable" border="3" style="width: 654px;">
+  <thead>  
+    <tr class="trow">
+      <th id="column 1" draggable="true" style="width: 325px;">Question</th>
+      <th id="column 2" draggable="true" style="width: 325px;">Options</th>
+      <th id="column 3" draggable="true" style="width: 80px;">Edit</th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody id="sorting">
+    <% @questions.each do |que| %>
+      <tr class="trow" id="<%=que.id%>">
+        <td><%= que.question %>_____</td>
+        <td>
+          <% que.options.each do |opt| %>
+            <%= opt.option %></br>
+          <% end %>
+        </td>
+        <td><%= link_to "Edit", edit_question_path(que) %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table></br>
+<a href="" onclick="saveOrder(); return false;">Save</a>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<!-- <script src="jquery.dragtable.js"></script> -->
+<!-- <link rel="stylesheet" href="/resources/demos/style.css" /> -->
+
+<script>
+  $(function() {
+    $( "#sorting" ).sortable({
+      connectWith: ".connectedSortable"
+    }).disableSelection();
+    accept: '#sorting > tr'
+    $('.row').droppable( {      
+      drop: function(event, ui){
+        rows = $(".trow");
+        row = {};
+        var j=1;
+        for (var i = 1; i < rows.length; i++) {
+          if ($(rows[i]).hasClass("ui-sortable-placeholder")) continue;
+          row[j] = rows[i].id;
+          j=j+1;
+        }
+        $.ajax({
+          url: "/questions/position",
+          method: 'patch',
+          data: {
+            row: row
+          }
+        });
+        debugger
+      }
+    });    
+  });
+
+  // $('.queTable').dragtable({dragHandle:'.column'});
+
+$("#sorting").on("onDrag",function(){
+  debugger
+  alert('dropped');
+});
+  // function drop(event) {
+  //   event.preventDefault();
+  //   debugger
+  //   rows = $(".trow");
+  //   row = {};
+  //   for (var i = 1; i < rows.length; i++) {
+  //     row[i] = rows[i].id;
+  //   }
+  //   alert("droped \n"+ row);
+  // }
+
+  // $(".trow").drop(function(){
+  //   debugger
+  //   rows = $(".trow");
+  //   row = {};
+  //   for (var i = 1; i < rows.length; i++) {
+  //     row[i] = rows[i].id;
+  //   }
+  //   alert("droped \n"+ row);
+  // });
+
+  // function saveOrder(){
+  //   debugger
+  //   rows = $(".trow");
+  //   row = {};
+  //   for (var i = 1; i < rows.length; i++) {
+  //     row[i] = rows[i].id;
+  //   }
+  // }
+</script>

@@ -5,7 +5,7 @@ class Question < ActiveRecord::Base
 	accepts_nested_attributes_for :options, :allow_destroy => true
 
 	scope :desc,-> { order(:created_at => :desc) }
-
+	scope :pos,-> { order(:position => :asc) }
 	# self.per_page = 10
 	
 end

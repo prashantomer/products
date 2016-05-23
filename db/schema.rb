@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160506132214) do
+ActiveRecord::Schema.define(version: 20160521111642) do
 
   create_table "albums", force: :cascade do |t|
     t.string   "user_id",    limit: 255
@@ -35,10 +35,11 @@ ActiveRecord::Schema.define(version: 20160506132214) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string   "question",     limit: 255, null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "question",     limit: 255,             null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "right_option", limit: 100
+    t.integer  "position",     limit: 4,   default: 0
   end
 
   create_table "roles", force: :cascade do |t|

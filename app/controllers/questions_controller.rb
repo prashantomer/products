@@ -1,7 +1,9 @@
 class QuestionsController < ApplicationController
 
+  skip_before_filter :verify_authenticity_token
+
   def index
-    @questions=Question.all.desc.paginate(:page => params[:page], :per_page => 11)
+    @questions=Question.all.pos.paginate(:page => params[:page], :per_page => 11)
     respond_to do |format|
       format.html
       format.js
@@ -23,18 +25,25 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    debugger
     @question=Question.find(params[:id])
   end
 
   def update
-    debugger
     question=Question.update(params[:id],question_params)
     question.users_answers.destroy_all
     redirect_to questions_path, :notice=> 'Question Updated'
   end
 
   def show
+  end
+
+  def position
+    debugger
+    row = params[:row]
+    row.each do |id|
+      Question.find(id.last.to_i).update(position: id.first.to_i)
+    end
+    redirect_to :back
   end
 
   private

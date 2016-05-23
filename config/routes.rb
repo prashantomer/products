@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
 
   resources :questions do
+    patch 'position', on: :collection
     resources :options #, only: [:new,:edit,:destroy]
   end
 
