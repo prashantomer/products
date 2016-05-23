@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
 
-  skip_before_filter :verify_authenticity_token #to allow params for position without filtration
+  skip_before_filter :verify_authenticity_token #to allow params received from ajax for position without filtration
 
   def index
     @questions=Question.all.pos.paginate(:page => params[:page], :per_page => 11)
